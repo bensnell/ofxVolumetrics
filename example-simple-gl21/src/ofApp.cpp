@@ -53,17 +53,27 @@ void ofApp::setup()
 void ofApp::update()
 {
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
+    
+    myVolume.setDims(ofGetWidth(), ofGetHeight());
 }
 
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+    
     ofSetColor(255,255,255,255);
     background.draw(0,0,ofGetWidth(),ofGetHeight());
-
+    
+    
     cam.begin();
-    myVolume.drawVolume(0,0,0, ofGetHeight(), 0);
+    myVolume.renderVolume(0,0,0, ofGetHeight(), 0);
     cam.end();
+    
+
+//    cam.begin();
+//    myVolume.renderVolume(0,0,0, ofGetHeight(), 0);
+    myVolume.drawVolume(0,0, ofGetWidth(), ofGetHeight());
+//    cam.end();
 
     ofSetColor(0,0,0,64);
     ofDrawRectangle(0,0,270,90);

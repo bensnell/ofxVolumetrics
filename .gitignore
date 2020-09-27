@@ -24,6 +24,8 @@ build/
 *.pbxuser
 *.perspectivev3
 xcuserdata/
+Makefile
+config.make
 
 # Compiled source #
 ###################
