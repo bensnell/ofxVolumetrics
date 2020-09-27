@@ -18,10 +18,12 @@ public:
     ofxVolumetrics();
     virtual ~ofxVolumetrics();
     void setup(int w, int h, int d, ofVec3f voxelSize, bool usePowerOfTwoTexSize=false);
+    void setDims(int w, int h);
     void destroy();
     void updateVolumeData(unsigned char * data, int w, int h, int d, int xOffset, int yOffset, int zOffset);
-    void drawVolume(float x, float y, float z, float size, int zTexOffset);
-    void drawVolume(float x, float y, float z, float w, float h, float d, int zTexOffset);
+    void renderVolume(float x, float y, float z, float size, int zTexOffset);
+    void renderVolume(float x, float y, float z, float w, float h, float d, int zTexOffset);
+    void drawVolume(float x, float y, float w, float h);
     bool isInitialized();
     int getVolumeWidth();
     int getVolumeHeight();

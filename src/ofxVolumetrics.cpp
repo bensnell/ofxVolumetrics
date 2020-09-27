@@ -86,6 +86,13 @@ ofxVolumetrics::~ofxVolumetrics()
     destroy();
 }
 
+void ofxVolumetrics::setDims(int w, int h) {
+    
+    renderWidth = w;
+    renderHeight = h;
+    
+}
+
 void ofxVolumetrics::setup(int w, int h, int d, ofVec3f voxelSize, bool usePowerOfTwoTexSize)
 {
     string vertexShader = STRINGIFY(
@@ -252,16 +259,16 @@ void ofxVolumetrics::updateVolumeData(unsigned char * data, int w, int h, int d,
     volumeTexture.loadData(data, w, h, d, xOffset, yOffset, zOffset, GL_RGBA);
 }
 
-void ofxVolumetrics::drawVolume(float x, float y, float z, float size, int zTexOffset)
+void ofxVolumetrics::renderVolume(float x, float y, float z, float size, int zTexOffset)
 {
     ofVec3f volumeSize = voxelRatio * ofVec3f(volWidth,volHeight,volDepth);
     float maxDim = max(max(volumeSize.x, volumeSize.y), volumeSize.z);
     volumeSize = volumeSize * size / maxDim;
 
-    drawVolume(x, y, z, volumeSize.x, volumeSize.y, volumeSize.z, zTexOffset);
+    renderVolume(x, y, z, volumeSize.x, volumeSize.y, volumeSize.z, zTexOffset);
 }
 
-void ofxVolumetrics::drawVolume(float x, float y, float z, float w, float h, float d, int zTexOffset)
+void ofxVolumetrics::renderVolume(float x, float y, float z, float w, float h, float d, int zTexOffset)
 {
     updateRenderDimentions();
 
@@ -320,14 +327,18 @@ void ofxVolumetrics::drawVolume(float x, float y, float z, float w, float h, flo
     volumeShader.end();
     fboRender.end();
 
-    ofPushView();
-
     glColor4iv(color);
-    ofSetupScreenOrtho();//ofGetWidth(), ofGetHeight(),OF_ORIENTATION_DEFAULT,false,0,1000);
-    fboRender.draw(0,0,ofGetWidth(),ofGetHeight());
+}
 
-    ofPopView();
-
+void ofxVolumetrics::drawVolume(float x, float y, float w, float h) {
+    
+    ofPushView();
+    
+    ofSetupScreenOrtho();//ofGetWidth(),
+    fboRender.draw(x, y, w, h);
+    
+    ofPopView();    
+    
 }
 
 void ofxVolumetrics::drawRGBCube()
@@ -352,10 +363,7 @@ void ofxVolumetrics::drawRGBCube()
 
 void ofxVolumetrics::updateRenderDimentions()
 {
-    if((int)(ofGetWidth() * quality.x) != renderWidth)
-    {
-        renderWidth = ofGetWidth()*quality.x;
-        renderHeight = ofGetHeight()*quality.x;
+    if (renderWidth != fboRender.getWidth() || renderHeight != fboRender.getHeight()) {
         fboRender.allocate(renderWidth, renderHeight, GL_RGBA);
     }
 }
