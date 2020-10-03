@@ -53,6 +53,7 @@ class ofxTexture3d
         void unbind();
         void clear();
         ofxTextureData3d getTextureData();
+        bool isAllocated();
     protected:
         void loadData(void * data, int w, int h, int d, int xOffset, int yOffset, int zOffset, int glFormat);
     private:

@@ -101,7 +101,7 @@ void ofxTexture3d::loadData(void * data, int w, int h, int d, int xOffset, int y
 
 void ofxTexture3d::clear()
 {
-    release(texData.textureID);
+    if (texData.bAllocated) release(texData.textureID);
     texData.textureID  = 0;
     texData.bAllocated = false;
 }
@@ -127,4 +127,8 @@ ofxTextureData3d ofxTexture3d::getTextureData()
     }
 
     return texData;
+}
+
+bool ofxTexture3d::isAllocated() {
+    return texData.bAllocated;
 }
