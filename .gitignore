@@ -63,3 +63,7 @@ Thumbs.db
 
 
 *.app
+
+*.exp
+*.lib
+*/.vs
