@@ -365,6 +365,7 @@ void ofxVolumetrics::updateRenderDimentions()
 {
     if (renderWidth != fboRender.getWidth() || renderHeight != fboRender.getHeight()) {
         fboRender.allocate(renderWidth, renderHeight, GL_RGBA);
+        ofLogNotice("ofxVolumetrics") << "Render fbo updated to size " << fboRender.getWidth() << " x " << fboRender.getHeight();
     }
 }
 
