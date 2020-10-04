@@ -43,6 +43,7 @@ class ofxTexture3d
         ofxTexture3d();
         virtual ~ofxTexture3d();
         void allocate(int w, int h, int d, int internalGlDataType);
+        void allocate(ofxTextureData3d texData);
         void loadData(unsigned char * data, int w, int h, int d, int xOffset, int yOffset, int zOffset, int glFormat);
         void loadData(float* data, int w, int h, int d, int xOffset, int yOffset, int zOffset, int glFormat);
         void loadData(unsigned short* data, int w, int h, int d, int xOffset, int yOffset, int zOffset, int glFormat);
@@ -54,8 +55,13 @@ class ofxTexture3d
         void clear();
         ofxTextureData3d getTextureData();
         bool isAllocated();
-    protected:
+        float getWidth() { return texData.tex_w; }
+        float getHeight() { return texData.tex_h; }
+        float getDepth() { return texData.tex_d; }
+        glm::vec3 getDims() { return glm::vec3(texData.tex_w, texData.tex_h, texData.tex_d); }
+        ofxTextureData3d texData;
+protected:
         void loadData(void * data, int w, int h, int d, int xOffset, int yOffset, int zOffset, int glFormat);
     private:
-        ofxTextureData3d texData;
+        void _allocate();
 };

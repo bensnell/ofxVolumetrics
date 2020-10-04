@@ -25,10 +25,29 @@ void ofxTexture3d::allocate(int w, int h, int d, int internalGlDataType)
     // get the glType (format) and pixelType (type) corresponding to the glTypeInteral (internalFormat)
     texData.glType = ofGetGLFormatFromInternal(texData.glTypeInternal);
     texData.pixelType = ofGetGlTypeFromInternal(texData.glTypeInternal);
+
+    texData.width = w;
+    texData.height = h;
+    texData.depth = d;
+    texData.bFlipTexture = false;
+    texData.bAllocated = true;
+
+    _allocate();
+}
+
+void ofxTexture3d::allocate(ofxTextureData3d _texData) {
+
+    texData = _texData;
+
+    _allocate();
+}
+
+void ofxTexture3d::_allocate() {
+
     // attempt to free the previous bound texture, if we can:
     clear();
 
-    glGenTextures(1, (GLuint *)&texData.textureID);
+    glGenTextures(1, (GLuint*)&texData.textureID);
     retain(texData.textureID);
     glEnable(texData.textureTarget);
     glBindTexture(texData.textureTarget, (GLuint)texData.textureID);
@@ -44,12 +63,6 @@ void ofxTexture3d::allocate(int w, int h, int d, int internalGlDataType)
     //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
     glDisable(texData.textureTarget);
-
-    texData.width = w;
-    texData.height = h;
-    texData.depth = d;
-    texData.bFlipTexture = false;
-    texData.bAllocated = true;
 }
 
 void ofxTexture3d::loadData(unsigned char * data, int w, int h, int d, int xOffset, int yOffset, int zOffset, int glFormat)
